@@ -1,0 +1,14 @@
+{
+  "name": "mockapi",
+  "version": "1.0.0",
+  "description": "ExpressJS API Mocker on Docker",
+  "author": "Mahesh",
+  "main": "app.js",
+  "scripts": {
+    "start" : "node app.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
