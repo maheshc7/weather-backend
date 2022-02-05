@@ -1,0 +1,184 @@
+swagger: '2.0'
+info:
+  description: "This is a mock api services which mocks the [OpenWeatherMap](https://openweathermap.org/api) API. For this mock api you can use a mock authentication username: `user` and password: `password` to test the authorization."
+  version: "1.0.0"
+  title: "Mock Weather API"
+  contact:
+    email: "mockapi@apimocker.com"
+schemes:
+- "http"
+host: "localhost:3000"
+basePath: "/v1"
+tags:
+- name: "Welcome"
+  description: "Home page of our MockWeatherAPI"
+- name: "User"
+  description: "Login to get your access token."
+- name: "Weather"
+  description: "Get the weather details of your mock location"
+paths:
+  /hello:
+    get:
+      tags:
+      - "Welcome"
+      produces:
+        - text/html
+      parameters: []
+      responses:
+        '200':
+          description: Successful. Generates welcome message.
+          schema:
+            type: string
+  /weather:
+    get:
+      tags:
+      - "Weather"
+      produces:
+        - "application/json"
+      parameters:
+      - name: "location"
+        in: "query"
+        description: "Name of city"
+        required: true
+        type: "string"
+      responses:
+        '200':
+          description: "Successful Operation"
+          schema:
+            $ref: '#/definitions/WeatherApiResponse'
+  /auth:
+    post:
+      tags:
+      - "User"
+      consumes:
+        - application/json
+      produces:
+        - text/html
+      parameters:
+      - name: "username"
+        in: "query"
+        description: "The user name for login"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        description: "The password for login in clear text"
+        required: true
+        type: "string"
+      responses:
+        '200':
+          description: Definition generated from Swagger Inspector
+#          schema:
+#            type: string
+#      security:
+#        - Secured: []
+#securityDefinitions:
+#  Secured:
+#    type: basic
+definitions:
+  Coord:
+    properties:
+      lon:
+        type: number
+        format: double
+      lat:
+        type: number
+        format: double
+  Weather:
+    properties:
+      id:
+        type: integer
+        format: int32
+      main:
+        type: string
+      description:
+        type: string
+      icon:
+        type: string
+  Main:
+    properties:
+      temp:
+        type: number
+        format: double
+      feels_like:
+        type: number
+        format: double
+      temp_min:
+        type: number
+        format: double
+      temp_max:
+        type: number
+        format: double
+      pressure:
+        type: integer
+        format: int32
+      humidity:
+        type: integer
+        format: int32
+  Wind:
+    properties:
+      speed:
+        type: number
+        format: double
+      deg:
+        type: integer
+        format: int32
+      gust:
+        type: number
+        format: double
+  Clouds:
+    properties:
+      all:
+        type: integer
+        format: int32
+  Sys:
+    properties:
+      type:
+        type: integer
+        format: int32
+      id:
+        type: integer
+        format: int32
+      country:
+        type: string
+      sunrise:
+        type: integer
+        format: int32
+      sunset:
+        type: integer
+        format: int32
+  WeatherApiResponse:
+    properties:
+      coord:
+        $ref: '#/definitions/Coord'
+      weather:
+        type: array
+        items:
+          $ref: '#/definitions/Weather'
+      base:
+        type: string
+      main:
+        $ref: '#/definitions/Main'
+      visibility:
+        type: integer
+        format: int32
+      wind:
+        $ref: '#/definitions/Wind'
+      clouds:
+        $ref: '#/definitions/Clouds'
+      dt:
+        type: integer
+        format: int32
+      sys:
+        $ref: '#/definitions/Sys'
+      timezone:
+        type: integer
+        format: int32
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+      cod:
+        type: integer
+        format: int32

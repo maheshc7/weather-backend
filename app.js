@@ -5,7 +5,7 @@ const data = require('./weather.json')
 
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
-    const allowedOrigins = ['https://editor.swagger.io', 'https://hoppscotch.io'];
+    const allowedOrigins = ['https://editor.swagger.io', 'https://hoppscotch.io', 'https://app.swaggerhub.com/','https://inspector.swagger.io/'];
     const origin = req.headers.origin;
     
     if (allowedOrigins.includes(origin)) {
@@ -27,7 +27,16 @@ app.get('/v1/hello', (req, res) => {
 })
 
 app.post('/v1/auth', (req, res) => {
-  res.send('12a3c2bf78ad167b3836fcda54cd32cv')
+  username = req.body.username
+  password = req.body.password
+  if (username == "cs561-se" && password == "LetMeIn"){
+  token = {
+    "access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiY3M1NjEtc2UiLCJwYXNzIjoiTGV0TWVJbiJ9.8f2w5c4XgSdIPjfLLKsbNGE9QV8aOnN6SeJoldv7FSU",
+    "expires": new Date()
+  }
+  res.json(token)
+}
+res.send("Check your credentials.")
 })
 
 // POST method route
