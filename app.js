@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 const jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiY3M1NjEtc2UiLCJwYXNzIjoiTGV0TWVJbiJ9.8f2w5c4XgSdIPjfLLKsbNGE9QV8aOnN6SeJoldv7FSU"
+const expiry = new Date()
+expiry.setFullYear(expiry.getFullYear()+1)
 
 app.use(function (request, response, next) {
     // Website you wish to allow to connect
@@ -33,7 +35,7 @@ app.post('/v1/auth', (request, response) => {
   if (username == "cs561-se" && password == "LetMeIn"){
     token = {
     "jwt": jwtToken,
-    "exp": new Date()
+    "exp": expiry
     }
   return response.json(token)
   }
