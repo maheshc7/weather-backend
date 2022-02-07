@@ -11,7 +11,7 @@ expiry.setFullYear(expiry.getFullYear()+1)
 
 app.use(function (request, response, next) {
     // Website you wish to allow to connect
-    const allowedOrigins = ['https://editor.swagger.io', 'https://hoppscotch.io', 'https://app.swaggerhub.com/','https://inspector.swagger.io/'];
+    const allowedOrigins = ['https://editor.swagger.io', 'https://hoppscotch.io', 'https://app.swaggerhub.com/*','https://inspector.swagger.io/'];
     const origin = request.headers.origin;
     
     if (allowedOrigins.includes(origin)) {
@@ -29,7 +29,6 @@ app.use(function (request, response, next) {
 });
 
 app.post('/v1/auth', (request, response) => {
-  console.dir(request.body)
   username = request.body.username
   password = request.body.password
   if (username == "cs561-se" && password == "LetMeIn"){
@@ -47,16 +46,15 @@ app.post('/v1/auth', (request, response) => {
 
 app.get('/v1/hello', (request, response) => {
   const authHeader = request.headers['authorization']
-  console.log(authHeader)
   const token = authHeader && authHeader.split(' ')[1]
 
   if (token == null) return response.sendStatus(401)
 
   if (token == jwtToken){
-    return response.send('Welcome to Open Mock Weather Services!')
+    return response.json('Welcome to Open Mock Weather Services!')
   }
   
-  return response.sendStatus(403).send("Invalid Token")
+  return response.sendStatus(401)
 })
 
 app.get('/v1/weather', get_weather) 
@@ -64,8 +62,6 @@ app.get('/v1/weather', get_weather)
 function get_weather(request,response) {
   const authHeader = request.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
-  console.dir(token)
-  console.dir(jwtToken)
   if (token == null) return response.sendStatus(401)
 
   if (token == jwtToken){
@@ -76,7 +72,7 @@ function get_weather(request,response) {
     return response.json(data)
   }
   
-  return response.sendStatus(403).send("Invalid Token")
+  return response.sendStatus(401)
 
 }
 
